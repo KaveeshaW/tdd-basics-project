@@ -8,9 +8,19 @@ class Stack {
     return this.items[this.top];
   }
 
-  push(value) {
-    this.top += 1;
-    this.items[this.top] = value;
+  push(item) {
+    this.top++;
+    this.items[this.top] = item;
+  }
+
+  pop() {
+    if (this.top === -1) {
+      return undefined;
+    }
+    const item = this.items[this.top];
+    delete this.items[this.top];
+    this.top--;
+    return item;
   }
 }
 
@@ -19,22 +29,25 @@ describe('My Stack', () => {
 
   beforeEach(() => {
     stack = new Stack();
-  });
+  })
 
   it('is created empty', () => {
     expect(stack.top).toBe(-1);
     expect(stack.items).toEqual({});
   });
 
-  it('can push to the top', () => {
-    stack.push('🥑');
+  it('can push items to the top', () => {
+    stack.push('item1');
     expect(stack.top).toBe(0);
-    expect(stack.peek).toBe('🥑');
-
-    stack.push('🌽');
-    expect(stack.top).toBe(1);
-    expect(stack.peek).toBe('🌽');
+    expect(stack.peek).toBe('item1');
+    expect(stack.items).toEqual({ 0: 'item1' });
   });
 
-  it.todo('can pop off');
+  it('can pop off', () => {
+    stack.push('item1');
+    const item = stack.pop();
+    expect(item).toBe('item1');
+    expect(stack.top).toBe(-1);
+    expect(stack.items).toEqual({});
+  });
 });
